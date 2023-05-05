@@ -20,7 +20,9 @@ public class UserRegistration {
         boolean isValidLength = password.length() >= 8;
         // Rule 2: should have at least 1 uppercase letter
         boolean hasUppercase = password.matches(".*[A-Z].*");
-        if (isValidLength && hasUppercase){
+        // Rule 3: should have at least 1 numeric number
+        boolean hasNumber = password.matches(".*\\d.*");
+        if (isValidLength && hasUppercase && hasNumber){
             return true;
         }
         else {
