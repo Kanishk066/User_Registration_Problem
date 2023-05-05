@@ -5,8 +5,9 @@ import java.util.Scanner;
 public class UserRegistration {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        String firstName = getValidFirstName(sc);
-        String lastName = getValidLastName(sc);
+        getValidFirstName(sc);
+        getValidLastName(sc);
+        getValidEmail(sc);
     }
     public static String getValidFirstName(Scanner sc) {
         System.out.println("Enter your first  name: ");
@@ -18,7 +19,7 @@ public class UserRegistration {
         }
         return firstName;
     }
-    public static String getValidLastName(Scanner sc){
+    public static String getValidLastName(Scanner sc) {
         System.out.println("Enter your last  name: ");
         String lastName = sc.nextLine();
         boolean isValidLastName = lastName.matches("[A-Z][a-zA-Z]{2,}");
@@ -28,5 +29,15 @@ public class UserRegistration {
         }
         return lastName;
     }
-
+    public static String getValidEmail(Scanner sc) {
+        System.out.println("Enter your email id: ");
+        String email = sc.nextLine();
+        boolean isValidEmail = email.matches("[a-zA-Z0-9]+([._+-][a-zA-Z0-9]+)*@[a-zA-Z0-9]+([.][a-zA-Z]{2,}){1,2}");
+        if (!isValidEmail) {
+            System.out.println("Invalid Email Id");
+            email = getValidEmail(sc);
+        }
+        return email;
+    }
 }
+
