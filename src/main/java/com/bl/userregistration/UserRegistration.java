@@ -8,6 +8,8 @@ public class UserRegistration {
         getValidFirstName(sc);
         getValidLastName(sc);
         getValidEmail(sc);
+        getValidMobileNumber(sc);
+        System.out.println("Valid first name, last name, email, and mobile number!");
     }
     public static String getValidFirstName(Scanner sc) {
         System.out.println("Enter your first  name: ");
@@ -38,6 +40,16 @@ public class UserRegistration {
             email = getValidEmail(sc);
         }
         return email;
+    }
+    public static String getValidMobileNumber(Scanner sc){
+        System.out.println("Enter your mobile number: ");
+        String mobileNumber = sc.nextLine();
+        boolean isValidMobileNumber = mobileNumber.matches("[0-9]{2} [0-9]{10}");
+        if (!isValidMobileNumber){
+            System.out.println("Invalid mobile number!");
+            mobileNumber = getValidMobileNumber(sc);
+        }
+        return mobileNumber;
     }
 }
 
