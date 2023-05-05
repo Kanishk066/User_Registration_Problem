@@ -22,7 +22,10 @@ public class UserRegistration {
         boolean hasUppercase = password.matches(".*[A-Z].*");
         // Rule 3: should have at least 1 numeric number
         boolean hasNumber = password.matches(".*\\d.*");
-        if (isValidLength && hasUppercase && hasNumber){
+        // Rule 4: should have exactly 1 special character
+        boolean hasSpecialChar = password.matches(".*[!@#$%^&*()_+].*") && password.replaceAll("[!@#$%^&*()_+]", "").length() == password.length() - 1;
+
+        if (isValidLength && hasUppercase && hasNumber && hasSpecialChar){
             return true;
         }
         else {
