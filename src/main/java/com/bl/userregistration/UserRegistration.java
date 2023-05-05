@@ -16,7 +16,16 @@ public class UserRegistration {
         return mobileNumber.matches("\\d{2} \\d{10}");
     }
     public static boolean isValidPassword(String password) {
-        return password.length() >= 8;
+        // Rule 1: minimum 8 characters
+        boolean isValidLength = password.length() >= 8;
+        // Rule 2: should have at least 1 uppercase letter
+        boolean hasUppercase = password.matches(".*[A-Z].*");
+        if (isValidLength && hasUppercase){
+            return true;
+        }
+        else {
+            return false;
+        }
     }
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
