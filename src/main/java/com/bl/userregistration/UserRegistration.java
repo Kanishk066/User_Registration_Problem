@@ -1,7 +1,5 @@
 package com.bl.userregistration;
-
 import java.util.Scanner;
-
 public class UserRegistration {
     public static boolean isValidFirstName(String firstName) {
         return firstName.matches("[A-Z][a-zA-Z]{2,}");
