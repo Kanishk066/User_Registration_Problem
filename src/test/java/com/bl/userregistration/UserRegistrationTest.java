@@ -16,12 +16,10 @@ public class UserRegistrationTest {
     public void testValidLastName() {
         assertTrue(UserRegistration.isValidLastName("Singhal"));
     }
-
     @Test
     public void testInvalidLastName() {
         assertFalse(UserRegistration.isValidLastName("singhal"));
     }
-
     @Test
     public void testValidEmail() {
         assertTrue(UserRegistration.isValidEmail("kanishk.singhal@example.com"));
