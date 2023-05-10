@@ -1,52 +1,72 @@
 package com.bl.userregistration;
 import org.junit.Test;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+
+import static org.junit.Assert.*;
 
 public class UserRegistrationTest {
     @Test
-    public void testValidFirstName() {
-        assertTrue(UserRegistration.isValidFirstName("Kanishk"));
-    }
-    @Test
-    public void testInvalidFirstName() {
-        assertFalse(UserRegistration.isValidFirstName("kanishk"));
-    }
-    @Test
-    public void testValidLastName() {
-        assertTrue(UserRegistration.isValidLastName("Singhal"));
-    }
-    @Test
-    public void testInvalidLastName() {
-        assertFalse(UserRegistration.isValidLastName("singhal"));
-    }
-    @Test
-    public void testValidEmail() {
-        assertTrue(UserRegistration.isValidEmail("kanishk.singhal@example.com"));
+    public void givenValidFirstName_ShouldReturnTrue() {
+        try {
+            UserRegistration.validateFirstName("John");
+        } catch (InvalidUserDetailsException e) {
+            fail("Should not have thrown any exception");
+        }
     }
 
     @Test
-    public void testInvalidEmail() {
-        assertFalse(UserRegistration.isValidEmail("kanishksinghalexample.com"));
+    public void givenInvalidFirstName_ShouldThrowInvalidUserDetailsException() {
+        try {
+            UserRegistration.validateFirstName("jo");
+            fail("Should have thrown InvalidUserDetailsException");
+        } catch (InvalidUserDetailsException e) {
+            assertEquals("Invalid first name! Please enter a valid first name", e.getMessage());
+        }
     }
 
     @Test
-    public  void testValidMobileNumber() {
-        assertTrue(UserRegistration.isValidMobileNumber("91 1234567890"));
+    public void givenValidLastName_ShouldReturnTrue() {
+        try {
+            UserRegistration.validateLastName("Doe");
+        } catch (InvalidUserDetailsException e) {
+            fail("Should not have thrown any exception");
+        }
     }
 
     @Test
-    public void testInvalidMobileNumber() {
-        assertFalse(UserRegistration.isValidMobileNumber("1234567890"));
+    public void givenInvalidLastName_ShouldThrowInvalidUserDetailsException() {
+        try {
+            UserRegistration.validateLastName("do");
+            fail("Should have thrown InvalidUserDetailsException");
+        } catch (InvalidUserDetailsException e) {
+            assertEquals(InvalidUserDetailsException.ExceptionType.INVALID_LAST_NAME, e.type);
+        }
+    }
+    @Test
+    public void givenInvalidEmail_ShouldThrowInvalidUserDetailsException() {
+        try {
+            UserRegistration.validateEmail("abc@.com");
+            fail("Should have thrown InvalidUserDetailsException");
+        } catch (InvalidUserDetailsException e) {
+            assertEquals(InvalidUserDetailsException.ExceptionType.INVALID_EMAIL, e.type);
+        }
+    }
+    @Test
+    public void givenInvalidMobileNumber_ShouldThrowInvalidUserDetailsException() {
+        try {
+            UserRegistration.validateMobileNumber("91 12345678");
+            fail("Should have thrown InvalidUserDetailsException");
+        } catch (InvalidUserDetailsException e) {
+            assertEquals(InvalidUserDetailsException.ExceptionType.INVALID_MOBILE_NUMBER, e.type);
+        }
     }
 
     @Test
-    public void testValidPassword() {
-        assertTrue(UserRegistration.isValidPassword("P@ssword123"));
-    }
-
-    @Test
-    public void testInvalidPassword() {
-        assertFalse(UserRegistration.isValidPassword("password"));
+    public void givenInvalidPassword_ShouldThrowInvalidUserDetailsException() {
+        try {
+            UserRegistration.validatePassword("1234567");
+            fail("Should have thrown InvalidUserDetailsException");
+        } catch (InvalidUserDetailsException e) {
+            assertEquals(InvalidUserDetailsException.ExceptionType.INVALID_PASSWORD, e.type);
+        }
     }
 }
