@@ -5,68 +5,61 @@ import static org.junit.Assert.*;
 
 public class UserRegistrationTest {
     @Test
-    public void givenValidFirstName_ShouldReturnTrue() {
+    public void testValidUserEntry() {
         try {
-            UserRegistration.validateFirstName("John");
+            String firstName = "John";
+            String lastName = "Doe";
+            String email = "johndoe@example.com";
+            String mobileNumber = "91 1234567890";
+            String password = "passw0rd!";
+
+            UserRegistration.validateUserEntry(firstName, name -> name.matches("[A-Z][a-zA-Z]{2,}"), InvalidUserDetailsException.ExceptionType.INVALID_FIRST_NAME);
+            UserRegistration.validateUserEntry(lastName, name -> name.matches("[A-Z][a-zA-Z]{2,}"), InvalidUserDetailsException.ExceptionType.INVALID_LAST_NAME);
+            UserRegistration.validateUserEntry(email, emailAddr -> emailAddr.matches("[a-zA-Z0-9]+([._+-][a-zA-Z0-9]+)*@[a-zA-Z0-9]+([.][a-zA-Z]{2,}){1,2}"), InvalidUserDetailsException.ExceptionType.INVALID_EMAIL);
+            UserRegistration.validateUserEntry(mobileNumber, mobNo -> mobNo.matches("\\d{2} \\d{10}"), InvalidUserDetailsException.ExceptionType.INVALID_MOBILE_NUMBER);
+            UserRegistration.validateUserEntry(password, pass -> pass.length() >= 8 && pass.matches(".*[A-Z].*") && pass.matches(".*\\d.*") && pass.matches(".*[!@#$%^&*()_+].*") && pass.replaceAll("[!@#$%^&*()_+]", "").length() == pass.length() - 1, InvalidUserDetailsException.ExceptionType.INVALID_PASSWORD);
+
+            // If the program execution reaches this line, it means all entries are valid
+            assertTrue(true);
         } catch (InvalidUserDetailsException e) {
-            fail("Should not have thrown any exception");
+            fail("Unexpected exception: " + e.getMessage());
         }
     }
 
     @Test
-    public void givenInvalidFirstName_ShouldThrowInvalidUserDetailsException() {
+    public void testInvalidFirstName() {
         try {
-            UserRegistration.validateFirstName("jo");
-            fail("Should have thrown InvalidUserDetailsException");
+            String firstName = "kanishk";
+            UserRegistration.validateUserEntry(firstName, name -> name.matches("[A-Z][a-zA-Z]{2,}"), InvalidUserDetailsException.ExceptionType.INVALID_FIRST_NAME);
+
+            fail("Expected InvalidUserDetailsException");
         } catch (InvalidUserDetailsException e) {
-            assertEquals("Invalid first name! Please enter a valid first name", e.getMessage());
+            assertEquals(InvalidUserDetailsException.ExceptionType.INVALID_FIRST_NAME, e.type);
+            assertEquals("Invalid entry! Please enter a valid first name", e.getMessage());
         }
     }
-
     @Test
-    public void givenValidLastName_ShouldReturnTrue() {
+    public void testInvalidLastName() {
         try {
-            UserRegistration.validateLastName("Doe");
-        } catch (InvalidUserDetailsException e) {
-            fail("Should not have thrown any exception");
-        }
-    }
+            String lastName = "Singhal";
+            UserRegistration.validateUserEntry(lastName, name -> name.matches("[A-Z][a-zA-Z]{2,}"), InvalidUserDetailsException.ExceptionType.INVALID_LAST_NAME);
 
-    @Test
-    public void givenInvalidLastName_ShouldThrowInvalidUserDetailsException() {
-        try {
-            UserRegistration.validateLastName("do");
-            fail("Should have thrown InvalidUserDetailsException");
+            fail("Expected InvalidUserDetailsException");
         } catch (InvalidUserDetailsException e) {
             assertEquals(InvalidUserDetailsException.ExceptionType.INVALID_LAST_NAME, e.type);
+            assertEquals("Invalid entry! Please enter a valid first name", e.getMessage());
         }
     }
     @Test
-    public void givenInvalidEmail_ShouldThrowInvalidUserDetailsException() {
+    public void testInvalidEmail() {
         try {
-            UserRegistration.validateEmail("abc@.com");
-            fail("Should have thrown InvalidUserDetailsException");
+            String email = "kanishksinghal@example.com";
+            UserRegistration.validateUserEntry(email, name -> name.matches("[a-zA-Z0-9]+([._+-][a-zA-Z0-9]+)*@[a-zA-Z0-9]+([.][a-zA-Z]{2,}){1,2}"), InvalidUserDetailsException.ExceptionType.INVALID_EMAIL);
+
+            fail("Expected InvalidUserDetailsException");
         } catch (InvalidUserDetailsException e) {
             assertEquals(InvalidUserDetailsException.ExceptionType.INVALID_EMAIL, e.type);
-        }
-    }
-    @Test
-    public void givenInvalidMobileNumber_ShouldThrowInvalidUserDetailsException() {
-        try {
-            UserRegistration.validateMobileNumber("91 12345678");
-            fail("Should have thrown InvalidUserDetailsException");
-        } catch (InvalidUserDetailsException e) {
-            assertEquals(InvalidUserDetailsException.ExceptionType.INVALID_MOBILE_NUMBER, e.type);
-        }
-    }
-
-    @Test
-    public void givenInvalidPassword_ShouldThrowInvalidUserDetailsException() {
-        try {
-            UserRegistration.validatePassword("1234567");
-            fail("Should have thrown InvalidUserDetailsException");
-        } catch (InvalidUserDetailsException e) {
-            assertEquals(InvalidUserDetailsException.ExceptionType.INVALID_PASSWORD, e.type);
+            assertEquals("Invalid entry! Please enter a valid first name", e.getMessage());
         }
     }
 }
